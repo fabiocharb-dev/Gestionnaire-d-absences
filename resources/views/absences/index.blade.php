@@ -13,7 +13,7 @@
             <p class="page-intro">Consultez et gérez les absences enregistrées.</p>
             <p class="current-user">
                 Connecté en tant que {{ Auth::user()->name }}
-                ({{ Auth::user()->email }} / {{ Auth::user()->getRoles()->pluck('name')->join(', ') }})
+                ({{ Auth::user()->email }} / {{ Auth::user()->getRoles()->join(', ') }})
             </p>
         </div>
 
@@ -23,6 +23,10 @@
             Ajouter une absence
         </a>
         @endcan
+
+        @if (Auth::check() && Auth::user()->isAdmin())
+            <a class="button button-secondary" href="{{ route('admin.roles.index') }}">Administration</a>
+        @endif
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
@@ -93,3 +97,4 @@
         </table>
     </div>
 @endsection
+

@@ -234,6 +234,128 @@
                 margin-top: 28px;
             }
 
+            .admin-nav,
+            .admin-role-heading,
+            .inline-form {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .admin-section {
+                margin-top: 36px;
+            }
+
+            .admin-section h2 {
+                margin: 0 0 16px;
+                color: var(--brand-dark);
+                font-size: 1.35rem;
+            }
+
+            .admin-form,
+            .admin-role {
+                display: grid;
+                gap: 18px;
+            }
+
+            .admin-role-list {
+                display: grid;
+                gap: 18px;
+            }
+
+            .admin-role {
+                padding: 22px;
+            }
+
+            .admin-role-heading {
+                justify-content: space-between;
+            }
+
+            .admin-role-heading h3 {
+                margin: 0;
+            }
+
+            .ability-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+                gap: 10px 18px;
+                margin: 0;
+                padding: 16px;
+                border: 1px solid var(--line);
+                border-radius: 6px;
+            }
+
+            .ability-list legend {
+                padding: 0 6px;
+                color: var(--brand-dark);
+                font-weight: 700;
+            }
+
+            .ability-list label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                overflow-wrap: anywhere;
+            }
+
+            .ability-list input {
+                width: 18px;
+                height: 18px;
+                flex: 0 0 auto;
+                accent-color: var(--accent);
+            }
+
+            .add-ability-form .field {
+                flex: 1 1 260px;
+            }
+
+            .admin-table {
+                min-width: 900px;
+            }
+
+            .user-edit-form {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(160px, 1fr));
+                gap: 12px;
+                min-width: 420px;
+            }
+
+            .user-edit-form button,
+            .user-edit-form details {
+                align-self: end;
+            }
+
+            .user-edit-form .password-edit {
+                grid-column: 1 / -1;
+            }
+
+            .password-edit > summary {
+                margin-bottom: 10px;
+                color: var(--brand);
+                cursor: pointer;
+                font-weight: 700;
+            }
+
+            .password-edit[open] {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .alert-error {
+                margin-bottom: 20px;
+                padding: 13px 16px;
+                border: 1px solid #fecaca;
+                border-radius: 6px;
+                color: var(--danger);
+                background: var(--danger-soft);
+            }
+
+            .alert-error p {
+                margin: 0;
+            }
+
             .alert-success {
                 margin-bottom: 20px;
                 padding: 13px 16px;
@@ -261,6 +383,18 @@
 
                 .form-panel {
                     padding: 20px;
+                }
+
+                .admin-nav,
+                .admin-role-heading {
+                    align-items: stretch;
+                    flex-direction: column;
+                }
+
+                .user-edit-form,
+                .password-edit[open] {
+                    grid-template-columns: 1fr;
+                    min-width: 260px;
                 }
             }
         </style>

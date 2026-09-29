@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
+use Silber\Bouncer\BouncerFacade as Bouncer;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
@@ -62,6 +63,24 @@ class RegistrationTest extends TestCase
             'id' => $user->id,
             'role' => 'utilisateur',
         ]);
+    }
+
+    public function test_registration_does_not_overwrite_existing_salarie_abilities(): void
+    {
+        Bouncer::allow('salarie')->to('absences-view');
+
+        $user = (new CreateNewUser)->create([
+            'nom' => 'Dupont',
+            'prenom' => 'Alice',
+            'genre' => 'femme',
+            'email' => 'alice@example.test',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+        ]);
+
+        $this->assertTrue($user->can('absences-view'));
+        $this->assertFalse($user->can('absences-create'));
+        $this->assertFalse($user->can('absences-update'));
     }
 
     public function test_registration_requires_joueur_information_and_password_confirmation(): void

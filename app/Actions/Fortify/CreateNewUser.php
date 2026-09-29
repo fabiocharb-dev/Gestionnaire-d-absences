@@ -51,11 +51,15 @@ class CreateNewUser implements CreatesNewUsers
                 'genre' => $input['genre'],
             ]);
 
-            foreach (['absences-view', 'absences-create', 'absences-update'] as $ability) {
-                Bouncer::allow('salarie')->to($ability);
+            $role = Bouncer::role()->firstOrCreate(['name' => 'salarie']);
+
+            if ($role->wasRecentlyCreated) {
+                foreach (['absences-view', 'absences-create', 'absences-update'] as $ability) {
+                    Bouncer::allow($role)->to($ability);
+                }
             }
 
-            Bouncer::assign('salarie')->to($user);
+            Bouncer::assign($role)->to($user);
 
             return $user;
         });
