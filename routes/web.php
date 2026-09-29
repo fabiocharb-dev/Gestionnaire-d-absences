@@ -6,6 +6,9 @@ use App\Http\Controllers\AbsenceController;
 use App\Http\Controllers\JoueurController;
 use App\Http\Controllers\Admin\RoleManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
+use App\Http\Controllers\LocaleController;
+
+Route::post('/locale', LocaleController::class)->name('locale.switch');
 
 Route::get('/', function () {
     return view('welcome');
