@@ -37,9 +37,15 @@ class RegistrationTest extends TestCase
             'genre' => 'femme',
         ]);
         $this->assertSame($user->id, $user->joueur->user_id);
+        $this->assertTrue($user->isA('salarie'));
+        $this->assertTrue($user->can('absences-view'));
+        $this->assertTrue($user->can('absences-create'));
+        $this->assertTrue($user->can('absences-update'));
+        $this->assertFalse($user->can('absences-delete'));
+        $this->assertFalse($user->isAdmin());
     }
 
-    public function test_registration_can_create_an_admin(): void
+    public function test_registration_cannot_assign_the_bouncer_admin_role(): void
     {
         $user = (new CreateNewUser)->create([
             'nom' => 'Admin',
@@ -51,10 +57,10 @@ class RegistrationTest extends TestCase
             'password_confirmation' => 'Password123!',
         ]);
 
-        $this->assertTrue($user->isAdmin());
+        $this->assertFalse($user->isAdmin());
         $this->assertDatabaseHas('users', [
             'id' => $user->id,
-            'role' => 'admin',
+            'role' => 'utilisateur',
         ]);
     }
 

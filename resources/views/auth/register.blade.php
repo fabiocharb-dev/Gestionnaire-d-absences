@@ -91,26 +91,7 @@
                 @enderror
             </div>
 
-            <div>
-                <label for="role" class="mb-1 block text-sm font-medium text-gray-700">
-                    Type de compte
-                </label>
 
-                <select
-                    id="role"
-                    name="role"
-                    required
-                    class="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                >
-                    <option value="">Sélectionner</option>
-                    <option value="utilisateur" @selected(old('role') === 'utilisateur')>Utilisateur</option>
-                    <option value="admin" @selected(old('role') === 'admin')>Administrateur</option>
-                </select>
-
-                @error('role')
-                    <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                @enderror
-            </div>
 
             <div>
                 <label for="email" class="mb-1 block text-sm font-medium text-gray-700">

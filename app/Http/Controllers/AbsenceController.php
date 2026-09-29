@@ -105,12 +105,13 @@ class AbsenceController extends Controller
     private function joueursDisponibles(): Collection
     {
         $utilisateur = $this->utilisateurConnecte();
+        $requete = Joueur::query()->orderBy('nom')->orderBy('prenom');
 
-        if ($utilisateur->isAdmin()) {
-            return Joueur::query()->orderBy('nom')->orderBy('prenom')->get();
+        if (!$utilisateur->isAdmin()) {
+            $requete->where('user_id', $utilisateur->id);
         }
 
-        return $utilisateur->joueur ? collect([$utilisateur->joueur]) : collect();
+        return $requete->get();
     }
 
     private function utilisateurConnecte(): User

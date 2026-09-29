@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Silber\Bouncer\BouncerFacade as Bouncer;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -27,7 +28,6 @@ class CreateNewUser implements CreatesNewUsers
             'nom' => ['required', 'string', 'max:25'],
             'prenom' => ['required', 'string', 'max:25'],
             'genre' => ['required', Rule::in(['homme', 'femme', 'nonbinaire'])],
-            'role' => ['sometimes', Rule::in(['utilisateur', 'admin'])],
             'email' => [
                 'required',
                 'string',
@@ -43,7 +43,6 @@ class CreateNewUser implements CreatesNewUsers
                 'name' => $input['prenom'].' '.$input['nom'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-                'role' => $input['role'] ?? 'utilisateur',
             ]);
 
             $user->joueur()->create([
@@ -51,6 +50,12 @@ class CreateNewUser implements CreatesNewUsers
                 'prenom' => $input['prenom'],
                 'genre' => $input['genre'],
             ]);
+
+            foreach (['absences-view', 'absences-create', 'absences-update'] as $ability) {
+                Bouncer::allow('salarie')->to($ability);
+            }
+
+            Bouncer::assign('salarie')->to($user);
 
             return $user;
         });

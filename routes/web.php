@@ -21,13 +21,13 @@ Route::resource('joueurs', JoueurController::class);
 
 
 
-/* Page accessible par tout le monde
+// Page accessible par tout le monde
 Route::resource('absences', AbsenceController::class);
-*/
+//
 
-//Page accessible seulement par les connectés, sinon renvoyé vers login
+/*Page accessible seulement par les connectés, sinon renvoyé vers login
 Route::middleware('auth')->group(function (){
     Route::resource('absences', AbsenceController::class);
 });
-//
+*/
 

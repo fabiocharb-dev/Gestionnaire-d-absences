@@ -12,15 +12,17 @@
             <h1>Tableau des absences</h1>
             <p class="page-intro">Consultez et gérez les absences enregistrées.</p>
             <p class="current-user">
-            Connecté en tant que {{Auth::user()->name}}
-            ({{ Auth::user()->email }} / {{ Auth::user()-> role }})
-        </p>
+                Connecté en tant que {{ Auth::user()->name }}
+                ({{ Auth::user()->email }} / {{ Auth::user()->getRoles()->pluck('name')->join(', ') }})
+            </p>
         </div>
 
-        @if (Auth::check())
+
+        @can('create', \App\Models\Absence::class)
         <a class="button" href="{{ route('absences.create') }}">
             Ajouter une absence
         </a>
+        @endcan
 
         <form method="POST" action="{{ route('logout') }}">
             @csrf
@@ -29,11 +31,6 @@
                 Se déconnecter
             </button>
         </form>
-        @else
-            <a class="button button-secondary" href="{{ route('login') }}">
-                Se connecter
-            </a>
-        @endif
     </div>
 
     @if (session('success'))

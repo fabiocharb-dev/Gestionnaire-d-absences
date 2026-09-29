@@ -3,12 +3,16 @@
 <div class="field">
     <label for="joueur_id">Joueur:</label>
     <select name="joueur_id" id="joueur_id" required>
-        <option value="">Sélectionnez un joueur</option>
-        @foreach ($joueurs as $joueur)
-            <option value="{{ $joueur->id }}" @selected(old('joueur_id', $absence->joueur_id ?? '') == $joueur->id)>
-                {{ $joueur->prenom }} {{ $joueur->nom }}
-            </option>
-        @endforeach
+        @if ($joueurs->isEmpty())
+            <option value="" selected disabled>Aucun joueur associé à votre compte</option>
+        @else
+            <option value="">Sélectionnez un joueur</option>
+            @foreach ($joueurs as $joueur)
+                <option value="{{ $joueur->id }}" @selected(old('joueur_id', $absence->joueur_id ?? '') == $joueur->id)>
+                    {{ $joueur->prenom }} {{ $joueur->nom }}
+                </option>
+            @endforeach
+        @endif
     </select>
     @error('joueur_id')
     <div style="color: red" class="error">{{ $message }}</div>

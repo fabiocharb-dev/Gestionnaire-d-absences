@@ -9,31 +9,28 @@ class AbsencePolicy
 {
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->can('absences-view');
     }
 
     public function view(User $user, Absence $absence): bool
     {
-        return true;
+        return $user->can('absences-view');
     }
 
     public function create(User $user): bool
     {
-        return $user->joueur()->exists() || $user->isAdmin();
+        return $user->can('absences-create');
     }
 
     public function update(User $user, Absence $absence): bool
     {
-        return $this->canManage($user, $absence);
+        return $user->can('absences-update')
+            && ($user->isAdmin() || $absence->joueur?->user_id === $user->id);
     }
 
     public function delete(User $user, Absence $absence): bool
     {
-        return $this->canManage($user, $absence);
-    }
-
-    private function canManage(User $user, Absence $absence): bool
-    {
-        return $user->isAdmin() || $absence->joueur?->user_id === $user->id;
+        return $user->can('absences-delete')
+            && ($user->isAdmin() || $absence->joueur?->user_id === $user->id);
     }
 }
