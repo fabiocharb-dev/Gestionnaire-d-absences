@@ -11,9 +11,16 @@ use App\Http\Requests\StoreAbsenceRequest;
 use App\Http\Requests\UpdateAbsenceRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
+use App\Repositories\AbsenceRepository;
 
 class AbsenceController extends Controller
 {
+    private $repository;
+    public function __construct(AbsenceRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -44,7 +51,7 @@ class AbsenceController extends Controller
      */
     public function store(StoreAbsenceRequest $request)
     {
-        Absence::create($request->validated());
+        $this->repository->store($request->validated());
         return redirect()
         ->route('absences.index')
         ->with('success', 'Absence créée avec succès')
@@ -81,7 +88,7 @@ class AbsenceController extends Controller
      */
     public function update(UpdateAbsenceRequest $request, Absence $absence)
     {
-        $absence->update($request->validated());
+        $this->repository->update($absence, $request->validated());
         return redirect()
         ->route('absences.index')
         ->with('success', 'Absence mise à jour avec succès')
@@ -95,7 +102,7 @@ class AbsenceController extends Controller
     {
         $this->authorize('delete', $absence);
 
-        $absence->delete();
+        $this->repository->delete($absence);
         return redirect()
         ->route('absences.index')
         ->with('success', 'Absence supprimée avec succès')
